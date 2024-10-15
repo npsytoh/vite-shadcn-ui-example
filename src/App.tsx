@@ -1,15 +1,10 @@
-import { Button } from '@/components/ui/button';
+import { ThemeProvider } from '@/components/theme-provider';
+import Header from '@/components/header';
 
-function App() {
-	const handleClick = () => {
-		alert('Clicked!');
-	};
-
+export default function App() {
 	return (
-		<>
-			<Button onClick={handleClick}>Click me!</Button>
-		</>
+		<ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+			<Header />
+		</ThemeProvider>
 	);
 }
-
-export default App;
