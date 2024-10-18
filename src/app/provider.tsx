@@ -5,7 +5,7 @@ interface AppProviderProps {
 	children: React.ReactNode;
 }
 
-export const AppProvider = ({ children }: AppProviderProps) => {
+export const AppProvider: React.FunctionComponent<AppProviderProps> = ({ children }) => {
 	return (
 		<ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
 			{children}
