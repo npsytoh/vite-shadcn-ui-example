@@ -1,38 +1,34 @@
 import React, { useRef, useState } from 'react';
-import { Textarea } from './ui/textarea';
-import { Label } from './ui/label';
-import { Button } from './ui/button';
+import { Textarea } from '@/components/ui/textarea';
+import { Label } from '@/components/ui/label';
+import { Button } from '@/components/ui/button';
+import { OutputTextArea } from '@/components/outputTextArea';
 
 export const Content: React.FC = () => {
 	const [inputText, setInputText] = useState<string>('');
 	const ref = useRef<HTMLTextAreaElement>(null!);
 
-	const handleClick = () => {
+	const handleClickClear = () => {
 		ref.current.value = '';
-		handleChange();
+		handleClickSend();
 	};
-	const handleChange = () => {
+	const handleClickSend = () => {
 		setInputText(ref.current.value);
 	};
 
 	return (
 		<div className="grid mt-10 mx-40 p-10 border rounded-md gap-10">
-			<div className="grid w-full gap-1.5">
-				<div className="flex items-end justify-between">
+			<div>
+				<div className="grid w-full gap-1.5">
 					<Label htmlFor="inputLabel">Input</Label>
-					<Button onClick={handleClick}>Clear</Button>
+					<Textarea ref={ref} placeholder="Enter text to be translated." id="inputLabel" />
 				</div>
-				<Textarea
-					ref={ref}
-					onChange={handleChange}
-					placeholder="Enter text to be translated."
-					id="inputLabel"
-				/>
+				<div className="flex gap-3 justify-end pt-2">
+					<Button onClick={handleClickClear}>Clear</Button>
+					<Button onClick={handleClickSend}>Send</Button>
+				</div>
 			</div>
-			<div className="grid w-full gap-1.5">
-				<Label htmlFor="outputLabel">Output</Label>
-				<Textarea value={inputText} id="outputLabel" readOnly={true} />
-			</div>
+			<OutputTextArea text={inputText} />
 		</div>
 	);
 };
