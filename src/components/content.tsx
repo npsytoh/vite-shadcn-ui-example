@@ -8,11 +8,11 @@ export const Content: React.FC = () => {
 	const [inputText, setInputText] = useState<string>('');
 	const ref = useRef<HTMLTextAreaElement>(null!);
 
-	const handleClickClear = () => {
+	const handleClickClear = (): void => {
 		ref.current.value = '';
 		handleClickSend();
 	};
-	const handleClickSend = () => {
+	const handleClickSend = (): void => {
 		setInputText(ref.current.value);
 	};
 
@@ -28,7 +28,7 @@ export const Content: React.FC = () => {
 					<Button onClick={handleClickSend}>Send</Button>
 				</div>
 			</div>
-			<OutputTextArea text={inputText} />
+			<OutputTextArea text={inputText} sourceLang="EN" targetLang="JA" />
 		</div>
 	);
 };

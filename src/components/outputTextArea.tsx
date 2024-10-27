@@ -1,10 +1,12 @@
 import React from 'react';
+import useSWR from 'swr';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import useSWR from 'swr';
 
 interface outputTextAreaProps {
 	text: string;
+	sourceLang: string;
+	targetLang: string;
 }
 
 interface Translate {
@@ -20,18 +22,31 @@ const fetcher = async (key: string) => {
 	return response.json();
 };
 
-export const OutputTextArea: React.FC<outputTextAreaProps> = ({ text }) => {
-	const { data } = useSWR<Translate>(
-		text ? 'http://localhost:8000/translate?text=translate&source_lang=EN&target_lang=JA' : null,
+export const OutputTextArea: React.FC<outputTextAreaProps> = ({ text, sourceLang, targetLang }) => {
+	const query = new URLSearchParams({
+		text,
+		source_lang: sourceLang,
+		target_lang: targetLang,
+	});
+	const { data, isLoading } = useSWR<Translate>(
+		text ? `http://localhost:8000/translate?${query}` : null,
 		fetcher,
+		{
+			revalidateOnFocus: false,
+			revalidateOnReconnect: false,
+		},
 	);
-
-	console.log(data);
 
 	return (
 		<div className="grid w-full gap-1.5">
-			<Label htmlFor="outputLabel">Output</Label>
-			<Textarea value={text} id="outputLabel" readOnly={true} />
+			<div className="flex">
+				<Label htmlFor="outputLabel">Output</Label>
+			</div>
+			<Textarea value={data?.text} id="outputLabel" readOnly={true} />
+			<div className="flex gap-3 justify-end">
+				<span>使用状況 : </span>
+				<span>{data?.usage ? `${data?.usage.count} / ${data?.usage.limit}` : '-'}</span>
+			</div>
 		</div>
 	);
 };
