@@ -7,7 +7,7 @@ export const Header: React.FunctionComponent = () => {
 		<>
 			<header className="h-16 max-w-full flex items-center justify-between gap-4 border container px-4">
 				<Button variant={'ghost'} asChild>
-					<h1>SampleApp</h1>
+					<h1 className="text-xl">TranslateApp</h1>
 				</Button>
 				<ModeToggle />
 			</header>
